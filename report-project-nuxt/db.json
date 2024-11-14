@@ -1,0 +1,16 @@
+{
+  "reports": [
+    {
+      "id": 1,
+      "company": "Company A",
+      "branch": "Branch 1",
+      "content": "Report content for Branch 1 of Company A."
+    },
+    {
+      "id": 2,
+      "company": "Company B",
+      "branch": "Branch 2",
+      "content": "Report content for Branch 2 of Company B."
+    }
+  ]
+}
