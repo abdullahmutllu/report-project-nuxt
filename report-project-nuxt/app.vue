@@ -15,4 +15,5 @@ body {
 #__nuxt {
   height: 100vh;
 }
+
 </style>

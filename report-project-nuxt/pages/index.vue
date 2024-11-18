@@ -1,18 +1,18 @@
 <template>
   <div class="container mx-auto p-4">
-    <div class="container mx-auto p-4">
+    <div class="container mx-auto p-4 headerDiv">
       <div class="row col-md-12">
         <!--Filtre Butonu -->
         <div class="tag d-inline-block mr-1 mainDiv">
           <div title="Son 6 Ay" role="group" class="filter-button-group btn-group mainDiv">
-            <button type="button" class="btn filter-button btn-light filterBtn" @click="openModal">
+            <button type="button" class="btn filter-button btn-light filterBtn">
               <div class="filter-title">Filtrele</div>
               <div class="filter-description"></div>
             </button>
           </div>
         </div>
-        <button type="button" class="btn btn-success addBtn">Ekle</button>
-        <button type="button" class="btn ml-1 btn-primary aplyBtn">Uygula</button>
+        <button type="button" class="btn btn-success addBtn" @click="openModal">Ekle</button>
+        <button type="button" class="btn ml-1 btn-primary aplyBtn" @click="writeJsonFile">Uygula</button>
       </div>
       <!-- Modal -->
       <div
@@ -24,10 +24,10 @@
         aria-hidden="true"
         style="display: block"
       >
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal Başlık</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Modal</h5>
               <button
                 type="button"
                 class="btn-close"
@@ -36,10 +36,135 @@
                 @click="closeModal"
               ></button>
             </div>
-            <div class="modal-body">Buraya modal içeriği gelecek.</div>
+            <div class="modal-body">
+              <!-- Şirket Adı -->
+              <label>Şirket adı giriniz:</label>
+              <input type="text" v-model="ckeditorValueForm.companyName" class="form-control mb-3" />
+              <div id="accordion">
+                <!-- Branch -->
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseOne"
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    >
+                      Şube
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseOne"
+                    class="accordion-collapse collapse show"
+                    aria-labelledby="headingOne"
+                    data-bs-parent="#accordion"
+                  >
+                    <div class="accordion-body">
+                      <select v-model="ckeditorValueForm.branch" class="form-select mb-3">
+                        <option value="">Şube Seçiniz</option>
+                        <option value="Şube 1">Şube 1</option>
+                        <option value="Şube 2">Şube 2</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseTwo"
+                    aria-expanded="false"
+                    aria-controls="collapseTwo"
+                  >
+                    Departman
+                  </button>
+                </h2>
+                <div
+                  id="collapseTwo"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="headingTwo"
+                  data-bs-parent="#accordion"
+                >
+                  <div class="accordion-body">
+                    <select v-model="ckeditorValueForm.department" class="form-select mb-3">
+                      <option value="">Departman Seçiniz</option>
+                      <option value="Departman 1">Departman 1</option>
+                      <option value="Departman 2">Departman 2</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseThree"
+                    aria-expanded="false"
+                    aria-controls="collapseThree"
+                  >
+                    Fatura Kalemi
+                  </button>
+                </h2>
+                <div
+                  id="collapseThree"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="headingThree"
+                  data-bs-parent="#accordion"
+                >
+                  <div class="accordion-body">
+                    <select v-model="ckeditorValueForm.invoiceItem" class="form-select mb-3">
+                      <option value="">Fatura Kalemi Seçiniz</option>
+                      <option value="Kalem 1">Kalem 1</option>
+                      <option value="Kalem 2">Kalem 2</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseThree"
+                    aria-expanded="false"
+                    aria-controls="collapseThree"
+                  >
+                    Kişi Seçiniz
+                  </button>
+                </h2>
+                <div
+                  id="collapseThree"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="headingThree"
+                  data-bs-parent="#accordion"
+                >
+                  <div class="accordion-body">
+                    <select v-model="ckeditorValueForm.person" class="form-select mb-3">
+                      <option value="">Kişi Seçiniz</option>
+                      <option value="Kisi 1">Kişi 1</option>
+                      <option value="Kisi 2">Kişi 2</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <label>İçerik giriniz:</label>
+              <input type="text" v-model="ckeditorValueForm.content" class="form-control mb-3" />
+              <div class="editor-container">
+                <test @updateContent="handleContentUpdate" />
+                <div v-html="ckValue"></div>
+              </div>
+            </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" @click="closeModal">Kapat</button>
-              <button type="button" class="btn btn-primary">Değişiklikleri Kaydet</button>
+              <button type="button" class="btn btn-primary" @click="saveChanges">Değişiklikleri Kaydet</button>
             </div>
           </div>
         </div>
@@ -142,12 +267,30 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import axios from "axios";
-
+import { useReportStore } from "../stores/reports";
+const content = ref("");
 const reports = ref([]);
-const kapat = ref(true);
-const kapatDegistir = () => {
-  kapat.value = !kapat.value;
+const ckValue = ref("");
+const ckeditorValueForm = ref({
+  companyName: "",
+  branch: "",
+  department: "",
+  invoiceItem: "",
+  person: "",
+  content: "",
+  detail: "",
+});
+const writeJsonFile = () => {
+  console.log("dosyaya yazıldı", ckeditorValueForm.value);
 };
+const saveChanges = () => {
+  console.log("Form verisi:", ckeditorValueForm.value);
+  closeModal();
+};
+const handleContentUpdate = (newValue) => {
+  ckeditorValueForm.value.detail = newValue;
+};
+
 const filter = ref({
   company: "",
 });
@@ -163,20 +306,24 @@ const isModalOpen = ref(false);
 
 const openModal = () => {
   isModalOpen.value = true;
+  content.value = "Başlangıç İçeriği";
 };
 const closeModal = () => {
   isModalOpen.value = false;
 };
 const selectedColumns = ref(["company", "branch", "department", "person", "invoice_items", "content", "details"]);
 
-const fetchReports = async () => {
-  try {
-    const { data } = await axios.get("http://localhost:3001/reports");
-    reports.value = data;
-  } catch (error) {
-    console.error("Veri çekme hatası:", error);
-  }
-};
+const reportStore = useReportStore();
+await reportStore.fetchReports();
+reports.value = reportStore.reports;
+// console.log(reportStore.reports);
+// const fetchReports = async () => {
+//   try {
+//     const { data } = await axios.get("http://localhost:3001/reports");
+//   } catch (error) {
+//     console.error("Veri çekme hatası:", error);
+//   }
+// };
 
 const filteredReports = computed(() => {
   return reports.value.filter((report) => {
@@ -184,19 +331,25 @@ const filteredReports = computed(() => {
   });
 });
 
-const resetFilter = () => {
-  filter.value.company = "";
-};
-
 onMounted(() => {
-  fetchReports();
+  // fetchReports();
 });
 </script>
 
 <style scoped>
+.headerDiv {
+  height: 80px;
+}
+.deneme {
+  margin-top: 0;
+}
+.modalComp {
+  margin-top: 50px;
+}
 .mainDiv {
   display: flex;
   width: 40px;
+
   height: 80px;
   margin-right: 60px;
   margin-bottom: 10px;

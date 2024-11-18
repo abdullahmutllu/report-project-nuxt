@@ -9,6 +9,23 @@
 </template>
 
 <script setup>
+useHead({
+  script: [
+    {
+      link: [
+        {
+          rel: "stylesheet",
+          href: "https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.css",
+        },
+      ],
+    },
+    {
+      src: "https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js",
+      defer: true,
+    },
+  ],
+});
+
 const sidebarVisible = ref(false);
 
 const toggleSidebar = () => {
