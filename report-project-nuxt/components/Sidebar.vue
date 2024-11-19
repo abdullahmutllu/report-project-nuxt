@@ -3,7 +3,6 @@
     <nav>
       <ul class="list-unstyled">
         <li><NuxtLink to="/" class="nav-link">Anasayfa</NuxtLink></li>
-        <li><NuxtLink to="/call-analysis" class="nav-link">Çağrı Analizi</NuxtLink></li>
         <li><NuxtLink to="/reports" class="nav-link">Raporlar</NuxtLink></li>
         <li><NuxtLink to="/admin" class="nav-link">Yönetim Paneli</NuxtLink></li>
       </ul>

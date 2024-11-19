@@ -158,7 +158,7 @@
               <label>İçerik giriniz:</label>
               <input type="text" v-model="ckeditorValueForm.content" class="form-control mb-3" />
               <div class="editor-container">
-                <test @updateContent="handleContentUpdate" />
+                <ck-editor @updateContent="handleContentUpdate" />
                 <div v-html="ckValue"></div>
               </div>
             </div>
@@ -226,7 +226,7 @@
               <div class="editor-container test1">
                 <div>
                   <label>Şirket ismine göre </label>
-                  <test class="test" @updateContent="filterCompanyUpdate" :is-simple-mode="true" />
+                  <ck-editor class="test" @updateContent="filterCompanyUpdate" :is-simple-mode="true" />
                   <button type="button" class="btn btn-primary test3" @click="applyFilter">
                     <p class="btnCnt">Uygula</p>
                   </button>
@@ -234,7 +234,7 @@
 
                 <div>
                   <label>Şubeye Göre Filtrele </label>
-                  <test class="test" @updateContent="filterBranchUpdate" :is-simple-mode="true" />
+                  <ck-editor class="test" @updateContent="filterBranchUpdate" :is-simple-mode="true" />
                   <button type="button" class="btn btn-primary test3" @click="applyFilter2">
                     <p class="btnCnt">Uygula</p>
                   </button>

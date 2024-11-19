@@ -11,7 +11,6 @@ const props = defineProps({
     default: false,
   },
 });
-
 const editorContainer = ref(null);
 const datas = ref("");
 const emit = defineEmits(["updateContent"]);
