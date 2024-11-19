@@ -1,75 +1,10 @@
-# Nuxt Minimal Starter
+### Kullanılan Teknolojiler
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- **Vue 3**
+- **Nuxt 3**
+- **Pinia**
+- **CKEditor 5**
+- **Bootstrap 5**
+![Anasayfa](https://github.com/user-attachments/assets/14a20da8-db93-490a-941f-9f4a60ebf784)
+![CKEditor ile filtreleme](https://github.com/user-attachments/assets/2d0dbb3b-2f59-4e97-8fbc-35d8777629f3)
+![Veri Ekleme Modal](https://github.com/user-attachments/assets/fbb85954-a469-41b8-ad7d-9fdc7db741db)
