@@ -23,9 +23,7 @@ const emit = defineEmits(["toggle-sidebar"]);
   z-index: 1050;
 }
 .logo {
-  width: 240px;
-  padding: 0 10px;
-  height: auto;
-  vertical-align: middle;
+  width: 200px;
+  height: 70px;
 }
 </style>
