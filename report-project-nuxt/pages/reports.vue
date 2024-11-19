@@ -6,6 +6,7 @@
         Filtreleri Sıfırla
       </button>
     </div>
+
     <div class="mb-6 border rounded-lg overflow-hidden">
       <div class="bg-white">
         <div class="border-b">

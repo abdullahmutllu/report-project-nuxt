@@ -5,7 +5,7 @@
         <!--Filtre Butonu -->
         <div class="tag d-inline-block mr-1 mainDiv">
           <div title="Son 6 Ay" role="group" class="filter-button-group btn-group mainDiv">
-            <button type="button" class="btn filter-button btn-light filterBtn">
+            <button type="button" class="btn filter-button btn-light filterBtn" @click="filterOpenModal">
               <div class="filter-title">Filtrele</div>
               <div class="filter-description"></div>
             </button>
@@ -169,6 +169,85 @@
           </div>
         </div>
       </div>
+      <div
+        v-if="isFilterOpen"
+        class="modal fade show"
+        id="myModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+        style="display: block"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Filtre</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                @click="filterCloseModal"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div id="accordion">
+                <!-- Branch -->
+                <!-- <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseOne"
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    >
+                      Şube
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseOne"
+                    class="accordion-collapse collapse show"
+                    aria-labelledby="headingOne"
+                    data-bs-parent="#accordion"
+                  >
+                    <div class="accordion-body">
+                      <select v-model="ckeditorValueForm.branch" class="form-select mb-3">
+                        <option value="">Şube Seçiniz</option>
+                        <option value="Şube 1">Şube 1</option>
+                        <option value="Şube 2">Şube 2</option>
+                      </select>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+
+              <div class="editor-container test1">
+                <div>
+                  <label>Şirket ismine göre </label>
+                  <test class="test" @updateContent="filterCompanyUpdate" :is-simple-mode="true" />
+                  <button type="button" class="btn btn-primary test3" @click="applyFilter">
+                    <p class="btnCnt">Uygula</p>
+                  </button>
+                </div>
+
+                <div>
+                  <label>Şubeye Göre Filtrele </label>
+                  <test class="test" @updateContent="filterBranchUpdate" :is-simple-mode="true" />
+                  <button type="button" class="btn btn-primary test3" @click="applyFilter2">
+                    <p class="btnCnt">Uygula</p>
+                  </button>
+                </div>
+                <div v-html="ckValue"></div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" @click="filterCloseModal">Kapat</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="mb-4">
@@ -266,11 +345,14 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import axios from "axios";
 import { useReportStore } from "../stores/reports";
 const content = ref("");
 const reports = ref([]);
+const filteredComapanyReports = ref([]);
+const filteredBranchReports = ref([]);
 const ckValue = ref("");
+const ckfiltervalue = ref("");
+const filterBranchValue = ref("");
 const ckeditorValueForm = ref({
   companyName: "",
   branch: "",
@@ -280,6 +362,16 @@ const ckeditorValueForm = ref({
   content: "",
   detail: "",
 });
+const reportStore = useReportStore();
+await reportStore.fetchReports();
+reports.value = reportStore.reports;
+
+const filteredReports = computed(() => {
+  return reports.value.filter((report) => {
+    return report.company.toLowerCase().includes(filter.value.company.toLowerCase());
+  });
+});
+
 const writeJsonFile = () => {
   console.log("dosyaya yazıldı", ckeditorValueForm.value);
 };
@@ -287,10 +379,40 @@ const saveChanges = () => {
   console.log("Form verisi:", ckeditorValueForm.value);
   closeModal();
 };
+const applyFilter = () => {
+  const filteredCompanyNames = filteredComapanyReports.value.map((rpt) => rpt.company.toLowerCase());
+  const filteredData = filteredReports.value.filter((report) => {
+    return filteredCompanyNames.includes(report.company.toLowerCase());
+  });
+  reports.value = filteredData;
+};
+const applyFilter2 = () => {
+  const filteredBrancNames = filteredBranchReports.value.map((rpt) => rpt.branch.toLowerCase());
+  const filteredData = filteredReports.value.filter((report) => {
+    return filteredBrancNames.includes(report.branch.toLowerCase());
+  });
+  reports.value = filteredData;
+};
 const handleContentUpdate = (newValue) => {
+  console.log(newValue);
   ckeditorValueForm.value.detail = newValue;
 };
+const filterCompanyUpdate = (filterValue) => {
+  console.log(filterValue);
+  const crudeValue = filterValue.replace(/^<p>/, "").replace(/<\/p>$/, "");
+  filteredComapanyReports.value = reports.value.filter((report) => {
+    return report.company.toLowerCase().includes(crudeValue.toLowerCase());
+  });
+  console.log(filteredComapanyReports.value);
+};
+const filterBranchUpdate = (filterBranchValue) => {
+  const crudeValue = filterBranchValue.replace(/^<p>/, "").replace(/<\/p>$/, "");
+  filteredBranchReports.value = reports.value.filter((report) => {
+    return report.branch.toLowerCase().includes(crudeValue.toLowerCase());
+  });
 
+  console.log(filteredBranchReports.value);
+};
 const filter = ref({
   company: "",
 });
@@ -303,7 +425,14 @@ const toggleColumn = (column) => {
   }
 };
 const isModalOpen = ref(false);
-
+const isFilterOpen = ref(false);
+const filterOpenModal = () => {
+  isFilterOpen.value = true;
+};
+const filterCloseModal = () => {
+  isFilterOpen.value = false;
+};
+const filterContent = () => {};
 const openModal = () => {
   isModalOpen.value = true;
   content.value = "Başlangıç İçeriği";
@@ -312,28 +441,6 @@ const closeModal = () => {
   isModalOpen.value = false;
 };
 const selectedColumns = ref(["company", "branch", "department", "person", "invoice_items", "content", "details"]);
-
-const reportStore = useReportStore();
-await reportStore.fetchReports();
-reports.value = reportStore.reports;
-// console.log(reportStore.reports);
-// const fetchReports = async () => {
-//   try {
-//     const { data } = await axios.get("http://localhost:3001/reports");
-//   } catch (error) {
-//     console.error("Veri çekme hatası:", error);
-//   }
-// };
-
-const filteredReports = computed(() => {
-  return reports.value.filter((report) => {
-    return report.company.toLowerCase().includes(filter.value.company.toLowerCase());
-  });
-});
-
-onMounted(() => {
-  // fetchReports();
-});
 </script>
 
 <style scoped>
@@ -383,17 +490,45 @@ li {
   margin-right: 50px;
   list-style-type: none;
   cursor: pointer;
-  transition: all 0.3s ease; /* Yumuşak geçiş efekti */
+  transition: all 0.3s ease;
 }
 
 li:hover {
   text-decoration: underline;
-  color: #1d4ed8; /* Hover durumunda renk değişimi */
+  color: #1d4ed8;
 }
 .text-blue-600 {
   color: #2563eb;
 }
 .font-semibold {
   font-weight: 600;
+}
+.test {
+  min-height: 200px;
+  max-height: 200px;
+  width: 240px;
+  margin-right: 10px;
+}
+.test1 {
+  display: flex;
+}
+.test3 {
+  margin-left: 125px;
+  width: 90px;
+  height: 33px;
+  border-radius: 10px;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.btnCnt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
 }
 </style>

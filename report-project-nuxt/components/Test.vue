@@ -1,34 +1,56 @@
 <template>
   <div>
-    <div ref="editorContainer"></div>
-    <div v-if="datas" class="mt-4" v-html="datas"></div>
+    <div class="deneme" ref="editorContainer"></div>
+    <button class="veriButton" v-if="isSimpleMode" @click="sendData">Veriyi Gönder</button>
   </div>
 </template>
-
 <script setup>
-import { onMounted, ref, watch, onBeforeUnmount, nextTick, markRaw } from "vue";
+const props = defineProps({
+  isSimpleMode: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const editorContainer = ref(null);
 const datas = ref("");
 const emit = defineEmits(["updateContent"]);
-let isUpdating = false;
+let editor = null;
 
 const initEditor = async () => {
   try {
-    const editor = await ClassicEditor.create(editorContainer.value, {
-      toolbar: ["heading", "|", "bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
+    const editorConfig = {
       placeholder: "Buraya yazın...",
-    });
+    };
+
+    if (props.isSimpleMode) {
+      editorConfig.removePlugins = ["Toolbar", "Heading"];
+      editorConfig.toolbar = [];
+    } else {
+      editorConfig.toolbar = {
+        items: ["heading", "|", "bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
+      };
+    }
+    if (editor) {
+      await editor.destroy();
+      editor = null;
+    }
+    editor = await ClassicEditor.create(editorContainer.value, editorConfig);
 
     editor.model.document.on("change:data", () => {
-      if (!isUpdating) {
-        const data = editor.getData();
-        datas.value = data;
-        emit("updateContent", data);
+      const data = editor.getData();
+      datas.value = data;
+      if (props.isSimpleMode == false) {
+        emit("updateContent", datas.value);
       }
     });
   } catch (error) {
     console.error("Editor başlatma hatası:", error);
+  }
+};
+const sendData = () => {
+  if (datas.value) {
+    emit("updateContent", datas.value);
   }
 };
 
@@ -40,15 +62,12 @@ onMounted(() => {
 <style scoped>
 :deep(.ck-editor__editable) {
   min-height: 200px;
-  max-height: 400px;
+  max-height: 200px;
   overflow-y: auto;
 }
-
-:deep(.ck.ck-editor) {
-  width: 100%;
-}
-
-:deep(.ck-editor__editable_inline) {
-  padding: 0 1rem;
+.veriButton {
+  background-color: white;
+  border-radius: 10px;
+  margin-top: 5px;
 }
 </style>
