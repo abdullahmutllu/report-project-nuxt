@@ -12,7 +12,7 @@
           </div>
         </div>
         <button type="button" class="btn btn-success addBtn" @click="openModal">Ekle</button>
-        <button type="button" class="btn ml-1 btn-primary aplyBtn" @click="writeJsonFile">Uygula</button>
+        <button type="button" class="btn ml-1 btn-primary aplyBtn" @click="resetFilter">Filtreyi Sıfırla</button>
       </div>
       <!-- Modal -->
       <div
@@ -344,15 +344,13 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
-import { useReportStore } from "../stores/reports";
+import axios from "axios";
+
 const content = ref("");
 const reports = ref([]);
 const filteredComapanyReports = ref([]);
 const filteredBranchReports = ref([]);
 const ckValue = ref("");
-const ckfiltervalue = ref("");
-const filterBranchValue = ref("");
 const ckeditorValueForm = ref({
   companyName: "",
   branch: "",
@@ -362,23 +360,48 @@ const ckeditorValueForm = ref({
   content: "",
   detail: "",
 });
+const isFiltered = ref(false);
+const selectedColumns = ref(["company", "branch", "department", "person", "invoice_items", "content", "details"]);
+// Store veri çekme işlemleri
 const reportStore = useReportStore();
 await reportStore.fetchReports();
 reports.value = reportStore.reports;
 
+// Anlık şirket arama
 const filteredReports = computed(() => {
   return reports.value.filter((report) => {
     return report.company.toLowerCase().includes(filter.value.company.toLowerCase());
   });
 });
 
-const writeJsonFile = () => {
-  console.log("dosyaya yazıldı", ckeditorValueForm.value);
+const resetFilter = () => {
+  const data = reportStore.reports;
+  reports.value = data;
+  console.log(data);
 };
-const saveChanges = () => {
-  console.log("Form verisi:", ckeditorValueForm.value);
-  closeModal();
+
+const saveChanges = async () => {
+  try {
+    await reportStore.writeJsonFile(ckeditorValueForm.value);
+
+    ckeditorValueForm.value = {
+      companyName: "",
+      branch: "",
+      department: "",
+      invoiceItem: "",
+      person: "",
+      content: "",
+      detail: "",
+    };
+
+    console.log("Form verisi kaydedildi");
+    closeModal();
+  } catch (error) {
+    console.error("Kaydetme hatası:", error);
+  }
 };
+
+// Uygula butonuna basılınca filtreleme yapar : filter fonksiyonu ile
 const applyFilter = () => {
   const filteredCompanyNames = filteredComapanyReports.value.map((rpt) => rpt.company.toLowerCase());
   const filteredData = filteredReports.value.filter((report) => {
@@ -393,30 +416,28 @@ const applyFilter2 = () => {
   });
   reports.value = filteredData;
 };
+//
 const handleContentUpdate = (newValue) => {
-  console.log(newValue);
   ckeditorValueForm.value.detail = newValue;
 };
+// CKEditorden aldığım değer <p> tagleri arasında geldiği için temizledim.
 const filterCompanyUpdate = (filterValue) => {
   console.log(filterValue);
   const crudeValue = filterValue.replace(/^<p>/, "").replace(/<\/p>$/, "");
   filteredComapanyReports.value = reports.value.filter((report) => {
     return report.company.toLowerCase().includes(crudeValue.toLowerCase());
   });
-  console.log(filteredComapanyReports.value);
 };
 const filterBranchUpdate = (filterBranchValue) => {
   const crudeValue = filterBranchValue.replace(/^<p>/, "").replace(/<\/p>$/, "");
   filteredBranchReports.value = reports.value.filter((report) => {
     return report.branch.toLowerCase().includes(crudeValue.toLowerCase());
   });
-
-  console.log(filteredBranchReports.value);
 };
 const filter = ref({
   company: "",
 });
-
+// seçilen kolonları gosterdim
 const toggleColumn = (column) => {
   if (selectedColumns.value.includes(column)) {
     selectedColumns.value = selectedColumns.value.filter((col) => col !== column);
@@ -432,7 +453,7 @@ const filterOpenModal = () => {
 const filterCloseModal = () => {
   isFilterOpen.value = false;
 };
-const filterContent = () => {};
+
 const openModal = () => {
   isModalOpen.value = true;
   content.value = "Başlangıç İçeriği";
@@ -440,7 +461,6 @@ const openModal = () => {
 const closeModal = () => {
   isModalOpen.value = false;
 };
-const selectedColumns = ref(["company", "branch", "department", "person", "invoice_items", "content", "details"]);
 </script>
 
 <style scoped>
@@ -470,7 +490,7 @@ const selectedColumns = ref(["company", "branch", "department", "person", "invoi
 }
 .aplyBtn {
   font-weight: 400;
-  width: 70px;
+  width: 120px;
   margin-left: 5px;
   height: 40px;
 }

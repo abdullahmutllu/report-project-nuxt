@@ -1,7 +1,7 @@
 {
   "reports": [
     {
-      "id": 1,
+      "id": "1",
       "company": "Şirket A",
       "branch": "Şube 1",
       "department": "Departman X",
@@ -11,7 +11,7 @@
       "details": "Detaylar 1"
     },
     {
-      "id": 2,
+      "id": "2",
       "company": "Şirket A",
       "branch": "Şube 2",
       "department": "Departman Y",
@@ -21,7 +21,7 @@
       "details": "Detaylar 2"
     },
     {
-      "id": 3,
+      "id": "3",
       "company": "Şirket A",
       "branch": "Şube 1",
       "department": "Departman Z",
@@ -31,7 +31,7 @@
       "details": "Detaylar 3"
     },
     {
-      "id": 4,
+      "id": "4",
       "company": "Şirket B",
       "branch": "Şube 2",
       "department": "Departman X",
@@ -41,7 +41,7 @@
       "details": "Detaylar 4"
     },
     {
-      "id": 5,
+      "id": "5",
       "company": "Şirket B",
       "branch": "Şube 1",
       "department": "Departman Y",
@@ -51,7 +51,7 @@
       "details": "Detaylar 5"
     },
     {
-      "id": 6,
+      "id": "6",
       "company": "Şirket C",
       "branch": "Şube 3",
       "department": "Departman Z",
@@ -61,7 +61,7 @@
       "details": "Detaylar 6"
     },
     {
-      "id": 7,
+      "id": "7",
       "company": "Şirket D",
       "branch": "Şube 4",
       "department": "Departman X",
@@ -71,7 +71,7 @@
       "details": "Detaylar 7"
     },
     {
-      "id": 8,
+      "id": "8",
       "company": "Şirket D",
       "branch": "Şube 5",
       "department": "Departman Y",
@@ -81,7 +81,7 @@
       "details": "Detaylar 8"
     },
     {
-      "id": 9,
+      "id": "9",
       "company": "Şirket E",
       "branch": "Şube 6",
       "department": "Departman Z",
@@ -91,7 +91,7 @@
       "details": "Detaylar 9"
     },
     {
-      "id": 10,
+      "id": "10",
       "company": "Şirket E",
       "branch": "Şube 7",
       "department": "Departman X",
@@ -101,7 +101,7 @@
       "details": "Detaylar 10"
     },
     {
-      "id": 11,
+      "id": "11",
       "company": "Şirket F",
       "branch": "Şube 8",
       "department": "Departman Y",
@@ -111,7 +111,7 @@
       "details": "Detaylar 11"
     },
     {
-      "id": 12,
+      "id": "12",
       "company": "Şirket F",
       "branch": "Şube 9",
       "department": "Departman Z",
@@ -121,7 +121,7 @@
       "details": "Detaylar 12"
     },
     {
-      "id": 13,
+      "id": "13",
       "company": "Şirket G",
       "branch": "Şube 10",
       "department": "Departman X",
@@ -131,7 +131,7 @@
       "details": "Detaylar 13"
     },
     {
-      "id": 14,
+      "id": "14",
       "company": "Şirket G",
       "branch": "Şube 11",
       "department": "Departman Y",
@@ -141,7 +141,7 @@
       "details": "Detaylar 14"
     },
     {
-      "id": 15,
+      "id": "15",
       "company": "Şirket H",
       "branch": "Şube 12",
       "department": "Departman Z",
@@ -151,7 +151,7 @@
       "details": "Detaylar 15"
     },
     {
-      "id": 16,
+      "id": "16",
       "company": "Şirket H",
       "branch": "Şube 13",
       "department": "Departman X",
@@ -161,7 +161,7 @@
       "details": "Detaylar 16"
     },
     {
-      "id": 17,
+      "id": "17",
       "company": "Şirket I",
       "branch": "Şube 14",
       "department": "Departman Y",
@@ -171,7 +171,7 @@
       "details": "Detaylar 17"
     },
     {
-      "id": 18,
+      "id": "18",
       "company": "Şirket I",
       "branch": "Şube 15",
       "department": "Departman Z",
@@ -181,7 +181,7 @@
       "details": "Detaylar 18"
     },
     {
-      "id": 19,
+      "id": "19",
       "company": "Şirket J",
       "branch": "Şube 16",
       "department": "Departman X",
@@ -191,7 +191,7 @@
       "details": "Detaylar 19"
     },
     {
-      "id": 20,
+      "id": "20",
       "company": "Şirket J",
       "branch": "Şube 17",
       "department": "Departman Y",
@@ -201,7 +201,7 @@
       "details": "Detaylar 20"
     },
     {
-      "id": 21,
+      "id": "21",
       "company": "Şirket J",
       "branch": "Şube 17",
       "department": "Departman Y",
@@ -209,6 +209,36 @@
       "invoice_items": "Fatura Kalemi 20",
       "content": "Rapor 20 İçeriği",
       "details": "Detaylar 20"
+    },
+    {
+      "id": "1732085718849",
+      "company": "",
+      "branch": "",
+      "department": "",
+      "person": "",
+      "invoice_items": "",
+      "content": "",
+      "details": ""
+    },
+    {
+      "id": "1732085723327",
+      "company": "",
+      "branch": "",
+      "department": "",
+      "person": "",
+      "invoice_items": "",
+      "content": "",
+      "details": ""
+    },
+    {
+      "id": 1732093560957,
+      "company": "Şirket a",
+      "branch": "Şube 1",
+      "department": "Departman 2",
+      "person": "Kisi 2",
+      "invoice_items": "Kalem 1",
+      "content": "test içerik",
+      "details": "<p>test ck</p>"
     }
   ]
 }
