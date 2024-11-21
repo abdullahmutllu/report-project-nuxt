@@ -17,85 +17,14 @@
       </div>
       <!-- Modal -->
       <ReportModal :is-open="isModalOpen" @close="closeModal" @save="handleSave" />
-      <div
-        v-if="isFilterOpen"
-        class="modal fade show"
-        id="myModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-        style="display: block"
-      >
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Filtre</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                @click="filterCloseModal"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div id="accordion">
-                <!-- Branch -->
-                <!-- <div class="accordion-item">
-                  <h2 class="accordion-header" id="headingOne">
-                    <button
-                      class="accordion-button"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseOne"
-                      aria-expanded="true"
-                      aria-controls="collapseOne"
-                    >
-                      Şube
-                    </button>
-                  </h2>
-                  <div
-                    id="collapseOne"
-                    class="accordion-collapse collapse show"
-                    aria-labelledby="headingOne"
-                    data-bs-parent="#accordion"
-                  >
-                    <div class="accordion-body">
-                      <select v-model="ckeditorValueForm.branch" class="form-select mb-3">
-                        <option value="">Şube Seçiniz</option>
-                        <option value="Şube 1">Şube 1</option>
-                        <option value="Şube 2">Şube 2</option>
-                      </select>
-                    </div>
-                  </div>
-                </div> -->
-              </div>
-
-              <div class="editor-container test1">
-                <div>
-                  <label>Şirket ismine göre </label>
-                  <ck-editor class="test" @updateContent="filterCompanyUpdate" :is-simple-mode="true" />
-                  <button type="button" class="btn btn-primary test3" @click="applyFilter">
-                    <p class="btnCnt">Uygula</p>
-                  </button>
-                </div>
-
-                <div>
-                  <label>Şubeye Göre Filtrele </label>
-                  <ck-editor class="test" @updateContent="filterBranchUpdate" :is-simple-mode="true" />
-                  <button type="button" class="btn btn-primary test3" @click="applyFilter2">
-                    <p class="btnCnt">Uygula</p>
-                  </button>
-                </div>
-                <div v-html="ckValue"></div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" @click="filterCloseModal">Kapat</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <FilterModal
+        :isFilterOpen="isFilterOpen"
+        @close="filterCloseModal"
+        @applyFilter="applyFilter"
+        @applyFilter2="applyFilter2"
+        @filterCompanyUpdate="filterCompanyUpdate"
+        @filterBranchUpdate="filterBranchUpdate"
+      />
     </div>
 
     <div class="mb-4">

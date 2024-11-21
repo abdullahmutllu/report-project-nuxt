@@ -17,7 +17,7 @@ export const useReportStore = defineStore("reportStore", {
     async writeJsonFile(formData) {
       try {
         const newReport = {
-          id: Date.now(),
+          id: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
           company: formData.companyName,
           branch: formData.branch,
           department: formData.department,

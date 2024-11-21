@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="deneme" ref="editorContainer"></div>
-    <button class="veriButton" v-if="isSimpleMode" @click="sendData">Veriyi Gönder</button>
+    <button class="veriButton" v-if="isSimpleMode" @click="sendData">Uygula</button>
   </div>
 </template>
 <script setup>
