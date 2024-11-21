@@ -1,5 +1,5 @@
 ### Kullanılan Teknolojiler
-
+ -** json-server --watch db.json --port 3001
 - **Vue 3**
 - **Nuxt 3**
 - **Pinia**
