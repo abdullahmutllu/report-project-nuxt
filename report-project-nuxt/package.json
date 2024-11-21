@@ -14,11 +14,13 @@
     "@ckeditor/ckeditor5-vue": "^5.1.0",
     "@pinia/nuxt": "^0.7.0",
     "@popperjs/core": "^2.11.8",
+    "@types/ol": "^7.0.0",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "bootstrap-vue-3": "^0.5.1",
     "ckeditor5": "^43.3.1",
     "nuxt": "^3.14.159",
+    "ol": "^10.2.1",
     "usebootstrap": "^3.5.100",
     "vue": "latest",
     "vue-router": "latest"

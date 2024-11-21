@@ -12,163 +12,11 @@
           </div>
         </div>
         <button type="button" class="btn btn-success addBtn" @click="openModal">Ekle</button>
+
         <button type="button" class="btn ml-1 btn-primary aplyBtn" @click="resetFilter">Filtreyi Sıfırla</button>
       </div>
       <!-- Modal -->
-      <div
-        v-if="isModalOpen"
-        class="modal fade show"
-        id="myModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-        style="display: block"
-      >
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                @click="closeModal"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <!-- Şirket Adı -->
-              <label>Şirket adı giriniz:</label>
-              <input type="text" v-model="ckeditorValueForm.companyName" class="form-control mb-3" />
-              <div id="accordion">
-                <!-- Branch -->
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="headingOne">
-                    <button
-                      class="accordion-button"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseOne"
-                      aria-expanded="true"
-                      aria-controls="collapseOne"
-                    >
-                      Şube
-                    </button>
-                  </h2>
-                  <div
-                    id="collapseOne"
-                    class="accordion-collapse collapse show"
-                    aria-labelledby="headingOne"
-                    data-bs-parent="#accordion"
-                  >
-                    <div class="accordion-body">
-                      <select v-model="ckeditorValueForm.branch" class="form-select mb-3">
-                        <option value="">Şube Seçiniz</option>
-                        <option value="Şube 1">Şube 1</option>
-                        <option value="Şube 2">Şube 2</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="headingTwo">
-                  <button
-                    class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseTwo"
-                    aria-expanded="false"
-                    aria-controls="collapseTwo"
-                  >
-                    Departman
-                  </button>
-                </h2>
-                <div
-                  id="collapseTwo"
-                  class="accordion-collapse collapse"
-                  aria-labelledby="headingTwo"
-                  data-bs-parent="#accordion"
-                >
-                  <div class="accordion-body">
-                    <select v-model="ckeditorValueForm.department" class="form-select mb-3">
-                      <option value="">Departman Seçiniz</option>
-                      <option value="Departman 1">Departman 1</option>
-                      <option value="Departman 2">Departman 2</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="headingThree">
-                  <button
-                    class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseThree"
-                    aria-expanded="false"
-                    aria-controls="collapseThree"
-                  >
-                    Fatura Kalemi
-                  </button>
-                </h2>
-                <div
-                  id="collapseThree"
-                  class="accordion-collapse collapse"
-                  aria-labelledby="headingThree"
-                  data-bs-parent="#accordion"
-                >
-                  <div class="accordion-body">
-                    <select v-model="ckeditorValueForm.invoiceItem" class="form-select mb-3">
-                      <option value="">Fatura Kalemi Seçiniz</option>
-                      <option value="Kalem 1">Kalem 1</option>
-                      <option value="Kalem 2">Kalem 2</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="headingThree">
-                  <button
-                    class="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseThree"
-                    aria-expanded="false"
-                    aria-controls="collapseThree"
-                  >
-                    Kişi Seçiniz
-                  </button>
-                </h2>
-                <div
-                  id="collapseThree"
-                  class="accordion-collapse collapse"
-                  aria-labelledby="headingThree"
-                  data-bs-parent="#accordion"
-                >
-                  <div class="accordion-body">
-                    <select v-model="ckeditorValueForm.person" class="form-select mb-3">
-                      <option value="">Kişi Seçiniz</option>
-                      <option value="Kisi 1">Kişi 1</option>
-                      <option value="Kisi 2">Kişi 2</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <label>İçerik giriniz:</label>
-              <input type="text" v-model="ckeditorValueForm.content" class="form-control mb-3" />
-              <div class="editor-container">
-                <ck-editor @updateContent="handleContentUpdate" />
-                <div v-html="ckValue"></div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" @click="closeModal">Kapat</button>
-              <button type="button" class="btn btn-primary" @click="saveChanges">Değişiklikleri Kaydet</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ReportModal :is-open="isModalOpen" @close="closeModal" @save="handleSave" />
       <div
         v-if="isFilterOpen"
         class="modal fade show"
@@ -344,23 +192,11 @@
 </template>
 
 <script setup>
-import axios from "axios";
-
 const content = ref("");
 const reports = ref([]);
 const filteredComapanyReports = ref([]);
 const filteredBranchReports = ref([]);
 const ckValue = ref("");
-const ckeditorValueForm = ref({
-  companyName: "",
-  branch: "",
-  department: "",
-  invoiceItem: "",
-  person: "",
-  content: "",
-  detail: "",
-});
-const isFiltered = ref(false);
 const selectedColumns = ref(["company", "branch", "department", "person", "invoice_items", "content", "details"]);
 // Store veri çekme işlemleri
 const reportStore = useReportStore();
@@ -374,34 +210,16 @@ const filteredReports = computed(() => {
   });
 });
 
+const handleSave = (formData) => {
+  console.log("Kaydedilen Veriler:", formData);
+  closeModal();
+};
 const resetFilter = () => {
   const data = reportStore.reports;
   reports.value = data;
   console.log(data);
 };
 
-const saveChanges = async () => {
-  try {
-    await reportStore.writeJsonFile(ckeditorValueForm.value);
-
-    ckeditorValueForm.value = {
-      companyName: "",
-      branch: "",
-      department: "",
-      invoiceItem: "",
-      person: "",
-      content: "",
-      detail: "",
-    };
-
-    console.log("Form verisi kaydedildi");
-    closeModal();
-  } catch (error) {
-    console.error("Kaydetme hatası:", error);
-  }
-};
-
-// Uygula butonuna basılınca filtreleme yapar : filter fonksiyonu ile
 const applyFilter = () => {
   const filteredCompanyNames = filteredComapanyReports.value.map((rpt) => rpt.company.toLowerCase());
   const filteredData = filteredReports.value.filter((report) => {
@@ -416,11 +234,7 @@ const applyFilter2 = () => {
   });
   reports.value = filteredData;
 };
-//
-const handleContentUpdate = (newValue) => {
-  ckeditorValueForm.value.detail = newValue;
-};
-// CKEditorden aldığım değer <p> tagleri arasında geldiği için temizledim.
+
 const filterCompanyUpdate = (filterValue) => {
   console.log(filterValue);
   const crudeValue = filterValue.replace(/^<p>/, "").replace(/<\/p>$/, "");
